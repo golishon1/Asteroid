@@ -14,6 +14,7 @@ public class UIViewer : MonoBehaviour
         EventManager.OnEndGame += GameOverPanelShow;
         EventManager.OnStartGame += StartGame;
     }
+
     private void OnDisable()
     {
         EventManager.OnEndGame -= GameOverPanelShow;
@@ -25,14 +26,11 @@ public class UIViewer : MonoBehaviour
         startText.text = "";
         gameStatsPanel.SetActive(true);
     }
+
     private void GameOverPanelShow()
     {
         gameStatsPanel.SetActive(false);
         gameOverPanel.SetActive(true);
-        if(GameController.instance.score< GameController.instance.highScore)
-        {
-            newRecordText.text = "";
-        }
+        if (GameController.instance.score < GameController.instance.highScore) newRecordText.text = "";
     }
-
 }

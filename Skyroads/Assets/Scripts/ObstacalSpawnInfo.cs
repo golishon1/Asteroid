@@ -1,9 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
 [Serializable]
-public class ObstacalSpawnInfo 
+public class ObstacalSpawnInfo
 {
     public string name;
     public GameObject prefab;
