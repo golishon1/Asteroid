@@ -1,58 +1,64 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(AudioSource))]
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] private Sound[] sound;
-
+    [SerializeField] private AudioSource _effectSource;
+    [SerializeField] private Sound[] soundEffect;
+    [SerializeField] private Sound[] soundBg;
+    
     private void Awake()
     {
-        foreach (var s in sound)
+        Init(_effectSource,soundEffect);
+        Init(gameObject.AddComponent<AudioSource>(),soundBg);
+    }
+
+    private void Start()
+    {
+       PlayMusicInBackGround();
+    }
+    private void Init(AudioSource source, Sound[] sounds)
+    {
+        foreach (var s in sounds)
         {
-            s.source = gameObject.AddComponent<AudioSource>();
+            s.source = source;
             s.source.clip = s.clip;
             s.source.volume = s.volume;
             s.source.loop = s.isLoop;
         }
     }
 
-    private void Start()
+    private void PlayMusicInBackGround()
     {
-        foreach (var s in sound)
-            if (s.isBackGround)
-                s.source.Play();
+        foreach (var s in soundBg)
+            s.source.Play();
     }
-
     public void PlaySound(string name)
     {
-        var s = Array.Find(sound, sound => sound.name == name);
-        if (s.source == null)
+        var s = Array.Find(soundEffect, sound => sound.name == name);
+        if (s == null)
             return;
-        s.source.enabled = true;
-        s.source.Play();
+        _effectSource.enabled = true;
+        _effectSource.PlayOneShot(s.clip);
     }
 
-    public void StopSound(string name)
+    public void StopSound()
     {
-        var s = Array.Find(sound, sound => sound.name == name);
-        if (s.source == null)
-            return;
-        s.source.enabled = false;
+        _effectSource.enabled = false;
     }
 
     public void SliderBgSounds(Slider slider)
     {
-        foreach (var s in sound)
-            if (s.isBackGround)
-                s.source.volume = slider.value;
+        foreach (var s in soundBg)
+            s.source.volume = slider.value;
     }
 
     public void SliderBgEffect(Slider slider)
     {
-        foreach (var s in sound)
-            if (!s.isBackGround)
-                s.source.volume = slider.value;
+        _effectSource.volume = slider.value;
     }
 }
 
@@ -62,9 +68,6 @@ public class Sound
     public string name;
     public AudioClip clip;
     public AudioSource source;
-
     [Range(0, 1f)] public float volume;
-
     public bool isLoop;
-    public bool isBackGround;
 }
