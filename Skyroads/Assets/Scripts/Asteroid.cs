@@ -1,12 +1,11 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Asteroid : MonoBehaviour
 {
     [SerializeField] private float speed = 5f;
-    void Update()
+
+    private void Update()
     {
         transform.Rotate(Vector3.up * speed * Time.deltaTime);
     }
-
 }

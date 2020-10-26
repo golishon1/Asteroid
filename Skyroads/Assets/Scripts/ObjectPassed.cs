@@ -3,6 +3,7 @@
 public class ObjectPassed : MonoBehaviour
 {
     [SerializeField] private float addScore = 5f;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
