@@ -9,6 +9,7 @@ public class ObjectPassed : MonoBehaviour
         {
             GameController.instance.asteroidPassed++;
             GameController.instance.score += addScore;
+            GameController.instance.audioManager.PlaySound("Pass");
             Destroy(this);
         }
     }

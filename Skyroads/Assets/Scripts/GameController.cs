@@ -14,6 +14,8 @@ public class GameController : MonoBehaviour
     public float seconds = 0;
     public int multiplyScore;
 
+    public AudioManager audioManager;
+    
     [SerializeField] UIViewer uiViewer;
 
   
@@ -65,6 +67,7 @@ public class GameController : MonoBehaviour
     private void GameOver()
     {
         SaveNewPrefs(score, "HighScore");
+        audioManager.PlaySound("Dead");
         gameState = GameState.End;
     }
     private void SaveNewPrefs(float value, string name)
